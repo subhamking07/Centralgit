@@ -15,5 +15,5 @@ then
 else
 	useradd $u
 	echo "$u account has created successfully !!!"
-fi
+ fi
 
