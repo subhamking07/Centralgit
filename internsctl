@@ -1,0 +1,14 @@
+
+#!/bin/bash
+
+if [ $1 == "--help" ]
+then
+	help
+elif [ $1 == "--version" ]
+then
+	echo "v0.1.0"
+else
+	echo "Ooops !!! Something Went Wrong."
+fi
+
+
