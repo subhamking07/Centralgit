@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#Description: all regular user list
+cat /etc/passwd
+

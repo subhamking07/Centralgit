@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if [ $# -eq 1 ]
+then
+	echo "File:   $1"
+      echo "Access: $(ls -ld $1 | awk '{print $1;}')"
+      echo "Size(B): $(wc -c $1 | awk '{print $1;}')"		
+      echo "Owner:  $(stat -c '%U' $1)"
+     echo "Modify: $(stat -c '%y' $1)"
+
+elif [ $# -eq 2 -a $1 == "-s" -o $1 == "--size" ] 
+then
+	wc -c $2 | awk '{print $1}'
+
+elif [ $# -eq 2 -a $1 == "-p" -o $1 == "--permissions" ]
+then
+	ls -ld $2 | awk '{print $1;}'
+
+elif [ $# -eq 2 -a $1 == "o" -o $1 == "--owner" ]
+then
+	stat -c '%U' $2
+elif [ $# -eq 2 -a $1 == "m" -o $1 == "--last-modified" ]
+then
+	stat -c '%y' $2
+fi
+
+
+
+
+

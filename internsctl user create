@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#Description: create a user account
+
+echo "Please Provide a user name !"
+
+read u
+
+grep -q $u /etc/passwd
+
+if [ $? -eq 0 ]
+then
+	echo "Error --user $u is already exist"
+	echo
+else
+	useradd $u
+	echo "$u account has been created successfully !!!"
+fi
+
