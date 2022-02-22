@@ -1,14 +1,104 @@
 
 #!/bin/bash
 
-if [ $1 == "--help" ]
+# Name -> Subham Das
+# Module -> 3 
+# Custom Command Name -> internsctl
+# Custom command version -> v0.1.0
+
+if [ $# -eq 1 ]
 then
-	help
-elif [ $1 == "--version" ]
+
+     # To get version of the command
+
+        if [ $1 == "--version" ]
+        then
+                echo "v0.1.0"
+
+      # Helping command for internsctl
+
+        elif [ $1 == "--help" ]
+        then
+                help
+        fi
+fi
+
+if [ $# -eq 2 ]
 then
-	echo "v0.1.0"
-else
-	echo "Ooops !!! Something Went Wrong."
+
+	# To get the memory information
+
+        if [ $1 == "memory" -a $2 == "getinfo" ]
+        then
+                free
+	# To get the CPU information
+
+        elif [ $1 == "cpu" -a $2 == "getinfo" ]
+        then
+                lscpu
+	# To get the user list
+
+        elif [ $1 == "user" -a $2 == "list" ]
+        then
+                cat /etc/passwd
+        fi
+
+fi
+
+if [ $# -eq 3 ]
+then
+	# To get file info
+
+        if [ $1 == "file" -a $2 == "getinfo" ]
+        then
+                echo "File : $3"
+                echo "Access : $(ls -l $3 | awk '{print $1;}')"
+                echo "size : $(wc -c $3 | awk '{print $1;}')"
+                echo "owner : $(stat -c '%U' $3)"
+                echo "Modify : $(stat -c '%y' $3)"
+
+	# To create a user
+
+        elif [ $1 == "user" -a $2 == "create" ]
+        then
+                grep -e $3 /etc/passwd
+
+                if [ $? -eq 0 ]
+then
+                        echo " Error --- $3 account already exist"
+                else
+                        useradd $3
+                        echo "$3 account has been created successfully "
+                fi
+        fi
+fi
+
+if [ $# -eq 4 ]
+then
+	# To get size of the file
+
+        if [ $1 == "file" -a $2 == "getinfo" -a $3 == "-s" -o $3 == "--size" ]
+        then
+                echo "$(wc -c $4 | awk '{print $1;}')"
+
+	# To get the file permissions
+
+        elif [ $1 == "file" -a $2 == "getinfo" -a $3 == "-p" -o $3 == "--permissions" ]
+        then
+                echo "$(ls -l $4 | awk '{print $1;}')"
+
+	# To get the owner of the file
+
+        elif [ $1 == "file" -a $2 == "getinfo" -a $3 == "-o" -o $3 == "--owner" ]
+        then
+                echo "$(stat -c '%U' $4)"
+
+	# To get the last modification date and time
+
+        elif [ $1 == "file" -a $2 == "getinfo" -a $3 == "-m" -o $3 == "--last-modified" ]
+        then
+                echo $(stat -c '%y' $4)
+        fi
 fi
 
 
